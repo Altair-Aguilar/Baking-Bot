@@ -16,4 +16,4 @@ async def say(ctx, word, times=1):
 	for x in range(times):
 		await ctx.send(str(word))
 
-client.run('NzA3MjY1MDUzOTEyNTk2NjQy.XrGSbg.p7pDSY0lnOpVqfUKZ2P7zOoQOkw')
+client.run('NzA3MjY1MDUzOTEyNTk2NjQy.XrGTNA.OzqqScKKvafRma6gJAP9m45ehUQ')
