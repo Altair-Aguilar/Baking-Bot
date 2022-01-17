@@ -1,6 +1,7 @@
 from discord import *
 from discord.ext import commands
 import requests
+from calculator import *
 
 #Setting the prefix that must be used before each command
 client = commands.Bot(command_prefix = '!')
