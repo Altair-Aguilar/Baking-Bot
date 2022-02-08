@@ -35,7 +35,11 @@ async def recipe(ctx, *args):
 
 
 #Help Command, call the help command by itself for a list of commands to get help on, or with the command name for specific help on that command
-help_list = {"recipe" : "To use this command, call .recipe with 6 variables: hydration percentage, salt percentage, yeast percentage, sugar percentage, oil percentage, and the total amount of dough."}
+help_list = {
+"recipe" : "To use this command, call !recipe with 6 variables: hydration percentage, salt percentage, yeast percentage, sugar percentage, oil percentage, and the total amount of dough. Example '!recipe 60, 2, 0.4, 2, 2, 6000' would return a recipe of a total of 6000g of dough weight, 60 percent hydration, 2 percent salt, 0.4 percent yeast, 2 percent oil and sugar.",
+"say" : "To use this command, simply call !say with the word you want to say, along with a second variable of the amount of times you want this word to be said. Example '!say hi 10' would result in the bot saying hi 10 times"
+
+}
 
 @client.command()
 async def helpcommand(ctx, command):
