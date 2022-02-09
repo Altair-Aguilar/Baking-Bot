@@ -41,6 +41,3 @@ class Recipe:
 		self.dough_amount = dough_amount
 
 		self.recipe = f"Flour: {flour_amount} \nWater: {water_amount} \nSalt: {salt_amount} \nYeast: {yeast_amount} \nSugar: {sugar_amount}\nOil: {oil_amount}"
-
-test = Recipe(70, 2, 2, 2, 2, 2000)
-print(test.salt)
