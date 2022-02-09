@@ -79,35 +79,31 @@ def get_name_from_id(idnumber):
 
 @client.command()
 async def gw2price(ctx,*args):
-	name = ""
-	for x in args:
-		name = name + x
-	idnumber = get_ID_from_name(name)
-	x = requests.get(f"https://api.guildwars2.com/v2/commerce/prices/{idnumber}")
-	x_dict = x.json()
+	try:
+		name = ""
+		for x in args:
+			name = name + x
+		idnumber = get_ID_from_name(name)
+		x = requests.get(f"https://api.guildwars2.com/v2/commerce/prices/{idnumber}")
+		x_dict = x.json()
+		sellprice = str((x_dict["buys"]["unit_price"]))
+		while len(sellprice) < 5:
+			sellprice = "0" + sellprice
+		copper_pieces = sellprice[-2:]
+		silver_pieces = sellprice[-4:-2]
+		gold_pieces = sellprice[0:-4]
+		sellprice = f"{gold_pieces} gold pieces, {silver_pieces} silver pieces, and {copper_pieces} copper pieces"
 
-	sellprice = str((x_dict["buys"]["unit_price"]))
-	while len(sellprice) < 5:
-		sellprice = "0" + sellprice
-	copper_pieces = sellprice[-2:]
-	silver_pieces = sellprice[-4:-2]
-	gold_pieces = sellprice[0:-4]
-	print(copper_pieces)
-	print(silver_pieces)
-	print(gold_pieces)
-	sellprice = f"{gold_pieces} gold pieces, {silver_pieces} silver pieces, and {copper_pieces} copper pieces"
-
-	buyprice = str((x_dict["sells"]["unit_price"]))
-	while len(buyprice) < 5:
-		buyprice = "0" + buyprice
-	copper_pieces = buyprice[-2:]
-	silver_pieces = buyprice[-4:-2]
-	gold_pieces = buyprice[0:-4]
-	print(copper_pieces)
-	print(silver_pieces)
-	print(gold_pieces)
-	buyprice = f"{gold_pieces} gold pieces, {silver_pieces} silver pieces, and {copper_pieces} copper pieces"
-	await ctx.send(f"{get_name_from_id(idnumber)} currently sells for {sellprice} and buys for {buyprice}")	
+		buyprice = str((x_dict["sells"]["unit_price"]))
+		while len(buyprice) < 5:
+			buyprice = "0" + buyprice
+		copper_pieces = buyprice[-2:]
+		silver_pieces = buyprice[-4:-2]
+		gold_pieces = buyprice[0:-4]
+		buyprice = f"{gold_pieces} gold pieces, {silver_pieces} silver pieces, and {copper_pieces} copper pieces"
+		await ctx.send(f"{get_name_from_id(idnumber)} currently sells for {sellprice} and buys for {buyprice}")	
+	except KeyError:
+		await ctx.send("I think you spelled that wrong! Try again! Make sure you arent pluralizing an item that should not be.")
 
 
 client.run('NzA3MjY1MDUzOTEyNTk2NjQy.XrGTNA.OzqqScKKvafRma6gJAP9m45ehUQ')
