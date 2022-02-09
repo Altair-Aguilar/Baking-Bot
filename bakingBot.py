@@ -15,13 +15,26 @@ async def on_ready():
 
 #When run, he will repeat what you say as many times as you specify (default of 1).
 @client.command()
-async def say(ctx, word, times=1):
-	if times > 10:
-		await ctx.send("Sorry, that's too many! the limit is 10!")
+async def say(ctx, *args):
+	words = ""
+	for x in args:
+		words = words + x + " "
+	split_input = words.split(" ")
+	split_input.pop(-1)
+	if split_input[-1].isdigit() and int(split_input[-1]) < 11:
+		times = split_input.pop(-1)
+		repeat = ""
+		for x in split_input:
+			repeat = repeat + x + " "
+		for x in range(int(times)):
+			await ctx.send(repeat)
+	elif not split_input[-1].isdigit():
+		repeat = ""
+		for x in args:
+			repeat = repeat + x + " "
+		await ctx.send(repeat)
 	else:
-		for x in range(times):
-			await ctx.send(str(word))
-
+		await ctx.send("Sorry, the limit is 10!")
 
 #return recipe based on arguments given by user NEED TO RENAME TEST VARIABLES!!!!
 @client.command()
