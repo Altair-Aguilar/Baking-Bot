@@ -24,16 +24,13 @@ async def say(ctx, word, times=1):
 #return recipe based on arguments given by user NEED TO RENAME TEST VARIABLES!!!!
 @client.command()
 async def recipe(ctx, *args):
-	x = ""
-	for y in args:
-		x = x + y
-	print(x)
-	argues = x.replace(" ", "")
-	print(argues)
-	argus = argues.split(',')
-	print(argus)
-	send = Recipe(argus[0], argus[1], argus[2], argus[3], argus[4], argus[5])
-	await ctx.send(str(send.recipe))
+	combined_arguments = ""
+	for x in args:
+		combined_arguments = combined_arguments + x
+	removed_spaces = combined_arguments.replace(" ", "")
+	argument_list = removed_spaces.split(',')
+	final_recipe = Recipe(argument_list[0], argument_list[1], argument_list[2], argument_list[3], argument_list[4], argument_list[5])
+	await ctx.send(str(final_recipe.recipe))
 
 
 
