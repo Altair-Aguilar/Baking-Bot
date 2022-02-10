@@ -119,5 +119,11 @@ async def gw2price(ctx,*args):
 	except KeyError:
 		await ctx.send("I think you spelled that wrong! Try again! Make sure you arent pluralizing an item that should not be.")
 
+@client.command()
+async def calendarday(ctx):
+	feasts_today = requests.get("http://calapi.inadiutorium.cz/api/v0/en/calendars/general-en/today")
+	feasts_dict = feasts_today.json()
+	feast = feasts_dict["celebrations"][0]["title"]
+	await ctx.send(f"Today's Feast is {feast}")
 
 client.run('NzA3MjY1MDUzOTEyNTk2NjQy.XrGTNA.OzqqScKKvafRma6gJAP9m45ehUQ')
