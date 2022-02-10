@@ -23,10 +23,11 @@ async def say(ctx, *args):
 	split_input.pop(-1)
 	if split_input[-1].isdigit() and int(split_input[-1]) < 11:
 		times = split_input.pop(-1)
+		times = int(times)
 		repeat = ""
 		for x in split_input:
 			repeat = repeat + x + " "
-		for x in range(int(times - 1)):
+		for x in range(times):
 			await ctx.send(repeat)
 	elif not split_input[-1].isdigit():
 		repeat = ""
