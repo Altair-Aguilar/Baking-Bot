@@ -26,7 +26,7 @@ async def say(ctx, *args):
 		repeat = ""
 		for x in split_input:
 			repeat = repeat + x + " "
-		for x in range(int(times)):
+		for x in range(int(times - 1)):
 			await ctx.send(repeat)
 	elif not split_input[-1].isdigit():
 		repeat = ""
