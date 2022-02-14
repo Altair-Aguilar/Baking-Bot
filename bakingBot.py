@@ -4,6 +4,7 @@ import requests
 from BreadRecipeClass import *
 from IDdictionary import *	
 import json
+from bottoken import *
 
 #Setting the prefix that must be used before each command
 client = commands.Bot(command_prefix = '!')
@@ -126,4 +127,4 @@ async def calendarday(ctx):
 	feast = feasts_dict["celebrations"][0]["title"]
 	await ctx.send(f"Today's Feast is {feast}")
 
-client.run('NzA3MjY1MDUzOTEyNTk2NjQy.XrGTNA.OzqqScKKvafRma6gJAP9m45ehUQ')
+client.run(bottoken)
