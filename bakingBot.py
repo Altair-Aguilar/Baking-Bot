@@ -4,7 +4,9 @@ import requests
 from BreadRecipeClass import *
 from IDdictionary import *	
 import json
+from scraper2 import *
 from bottoken import *
+
 
 #Setting the prefix that must be used before each command
 client = commands.Bot(command_prefix = '!')
@@ -126,5 +128,9 @@ async def calendarday(ctx):
 	feasts_dict = feasts_today.json()
 	feast = feasts_dict["celebrations"][0]["title"]
 	await ctx.send(f"Today's Feast is {feast}")
+
+@client.command()
+async def leetcode(ctx):
+	await ctx.send(f"Todays Daily Leetcode Challenge Link: {get_link()}")
 
 client.run(bottoken)
