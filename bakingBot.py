@@ -52,7 +52,6 @@ help_list = {
 "gw2price" : "To use this command, call !gw2price with the name of the item you wish to check the buy and sell price of, e.g '!gw2sellprice twilight'",
 "helpcommand" :'To use this command, call !helpcommand with any command name and it will return a message that explains what the command does.',
 "commandslist" : "To use this command call !commandslist to get a list of all commands returned",
-"help" : "To use this command, call !help to get a list of all commands returned",
 "calendarday" : "To use this command, call !calendarday to get today's feast day returned",
 "leetcode" : "To use this command, call !leetcode to get leetcode's daily challenge",
 "kaf" : "To use this command, call !kaf with your search query and get the top result from King Arthur Flour's Site"
