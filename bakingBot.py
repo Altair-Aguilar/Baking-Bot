@@ -158,7 +158,10 @@ async def leetcode(ctx):
 
 #Takes a query from the user and queries custom google search engine that only returns results from the King Arthur Baking Site, and sends that result to the user
 @client.command()
-async def kaf(ctx, query):
+async def kaf(ctx, *args):
+	query = ""
+	for x in args:
+		query = query + x + " "
 	await ctx.send(searchkaf(query))
 
 #Runs the bot
