@@ -1,9 +1,12 @@
+#import libraries needed for discord, api, etc.
 from discord import *
 from discord.ext import commands
 import requests
+import json
+
+#Import personal python scripts that were split off from this for easier readability. 
 from BreadRecipeClass import *
 from IDdictionary import *	
-import json
 from scraper2 import *
 from keys import *
 from KingArthurSearchEngine import *
@@ -17,7 +20,69 @@ client = commands.Bot(command_prefix = '!')
 async def on_ready():
 	print("Bot is active.")
 
-#When run, he will repeat what you say as many times as you specify (default of 1).
+
+#Function that gives the ID to any gw2 item from name will be used for a command later(THIS WILL IDEALLY BE SWITCHED TO AN API SOLUTION, BUT NOTHING STRAIGHTFORWARD EXISTS FOR GW2 API ITEM NAME TO ITEM ID)
+def get_ID_from_name(name):
+	IDdictionary_keys = list(id_dictionary.keys())
+	IDdictionary_values = list(id_dictionary.values())
+	for y in IDdictionary_values:
+		for x in y:
+			if ((x[1].lower()).replace(" ", "")).replace("-", "") == ((name.lower()).replace(" ", "")).replace("-", ""):
+				return(x[0])
+			else:
+				continue
+
+#Function that does the reverse of the previous, instead getting the name from the ID Number, will be used for a command later
+def get_name_from_id(idnumber):
+	IDdictionary_keys = list(id_dictionary.keys())
+	IDdictionary_values = list(id_dictionary.values())
+	for y in IDdictionary_values:
+		for x in y:
+			if x[0] == idnumber:
+				return x[1]
+			else:
+				continue
+
+
+
+#Help Command, call the help command by itself for a list of commands to get help on, or with the command name for specific help on that command
+help_list = {
+"recipe" : "To use this command, call !recipe with 6 variables: hydration percentage, salt percentage, yeast percentage, sugar percentage, oil percentage, and the total amount of dough. Example '!recipe 60, 2, 0.4, 2, 2, 6000' would return a recipe of a total of 6000g of dough weight, 60 percent hydration, 2 percent salt, 0.4 percent yeast, 2 percent oil and sugar.",
+"say" : "To use this command, simply call !say with the word you want to say, along with a second variable of the amount of times you want this word to be said. Example '!xsay hi 10' would result in the bot saying hi 10 times",
+"gw2price" : "To use this command, call !gw2price with the name of the item you wish to check the buy and sell price of, e.g '!gw2sellprice twilight'",
+"helpcommand" :'To use this command, call !helpcommand with any command name and it will return a message that explains what the command does.',
+"commandslist" : "To use this command call !commandslist to get a list of all commands returned",
+"help" : "To use this command, call !help to get a list of all commands returned",
+"calendarday" : "To use this command, call !calendarday to get today's feast day returned",
+"leetcode" : "To use this command, call !leetcode to get leetcode's daily challenge",
+"kaf" : "To use this command, call !kaf with your search query and get the top result from King Arthur Flour's Site"
+}
+
+#Returns a help message for a certain command, taken from help_list
+@client.command()
+async def helpcommand(ctx, command):
+	await ctx.send(help_list[command.lower()])
+
+
+#lists all commands, two commands to allow !help to be used for the same result
+@client.command()
+async def commandslist(ctx):
+	commands = ""
+	for x in help_list.keys():
+		commands = commands + x + ", "
+	await ctx.send(commands)
+
+
+@client.command()
+async def help(ctx):
+	commands = ""
+	for x in help_list.keys():
+		commands = commands + x + ", "
+	await ctx.send(commands)
+
+
+
+#When run, the bot will repeat what you say as many times as you specify (default of 1).
 @client.command()
 async def say(ctx, *args):
 	words = ""
@@ -41,7 +106,8 @@ async def say(ctx, *args):
 	else:
 		await ctx.send("Sorry, the limit is 10!")
 
-#return recipe based on arguments given by user NEED TO RENAME TEST VARIABLES!!!!
+
+#return amounts for a bread recipe based on percentages given by the user
 @client.command()
 async def recipe(ctx, *args):
 	combined_arguments = ""
@@ -53,48 +119,7 @@ async def recipe(ctx, *args):
 	await ctx.send(str(final_recipe.recipe))
 
 
-
-#Help Command, call the help command by itself for a list of commands to get help on, or with the command name for specific help on that command
-help_list = {
-"recipe" : "To use this command, call !recipe with 6 variables: hydration percentage, salt percentage, yeast percentage, sugar percentage, oil percentage, and the total amount of dough. Example '!recipe 60, 2, 0.4, 2, 2, 6000' would return a recipe of a total of 6000g of dough weight, 60 percent hydration, 2 percent salt, 0.4 percent yeast, 2 percent oil and sugar.",
-"say" : "To use this command, simply call !say with the word you want to say, along with a second variable of the amount of times you want this word to be said. Example '!xsay hi 10' would result in the bot saying hi 10 times",
-"gw2price" : "To use this command, call !gw2price with the name of the item you wish to check the buy and sell price of, e.g '!gw2sellprice twilight'",
-}
-
-@client.command()
-async def helpcommand(ctx, command):
-	await ctx.send(help_list[command.lower()])
-
-@client.command()
-async def commandslist(ctx):
-	commands = ""
-	for x in help_list.keys():
-		commands = commands + x + ", "
-	await ctx.send(commands)
-
-
-
-#Function that gives the ID to any gw2 item from name (THIS WILL IDEALLY BE SWITCHED TO AN API SOLUTION, BUT NOTHING STRAIGHTFORWARD EXISTS FOR GW2 API ITEM NAME TO ITEM ID)
-def get_ID_from_name(name):
-	IDdictionary_keys = list(id_dictionary.keys())
-	IDdictionary_values = list(id_dictionary.values())
-	for y in IDdictionary_values:
-		for x in y:
-			if ((x[1].lower()).replace(" ", "")).replace("-", "") == ((name.lower()).replace(" ", "")).replace("-", ""):
-				return(x[0])
-			else:
-				continue
-
-def get_name_from_id(idnumber):
-	IDdictionary_keys = list(id_dictionary.keys())
-	IDdictionary_values = list(id_dictionary.values())
-	for y in IDdictionary_values:
-		for x in y:
-			if x[0] == idnumber:
-				return x[1]
-			else:
-				continue
-
+#using the gw2 api and the previously created functions, determines the price of certain items in GW2 based on the user's input
 @client.command()
 async def gw2price(ctx,*args):
 	try:
@@ -123,6 +148,9 @@ async def gw2price(ctx,*args):
 	except KeyError:
 		await ctx.send("I think you spelled that wrong! Try again! Make sure you arent pluralizing an item that should not be.")
 
+
+
+#takes the feast day from a calendar api and returns it to the user
 @client.command()
 async def calendarday(ctx):
 	feasts_today = requests.get("http://calapi.inadiutorium.cz/api/v0/en/calendars/general-en/today")
@@ -130,12 +158,17 @@ async def calendarday(ctx):
 	feast = feasts_dict["celebrations"][0]["title"]
 	await ctx.send(f"Today's Feast is {feast}")
 
+
+#scrapes the leetcode website for the daily coding challenge and sends that result. (very slow right now as the bot has to fully load in the website to allow for dynamically-generated items to load in, need to run this code daily at the time that leetcode uploads their challenge and then cache the result for quick response.)
 @client.command()
 async def leetcode(ctx):
 	await ctx.send(f"Todays Daily Leetcode Challenge Link: {get_link()}")
 
+
+#Takes a query from the user and queries custom google search engine that only returns results from the King Arthur Baking Site, and sends that result to the user
 @client.command()
 async def kaf(ctx, query):
 	await ctx.send(searchkaf(query))
 
+#Runs the bot
 client.run(bottoken)
