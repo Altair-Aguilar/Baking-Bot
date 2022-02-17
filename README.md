@@ -1,1 +1,2 @@
 # Baking-Bot
+Baking Bot is a personal Discord Bot created to service the needs of Hoodwink and Alt Gang, as well as to be used as a learning tool to practice different things such as web scraping, requesting from apis, hosting the script, etc.
