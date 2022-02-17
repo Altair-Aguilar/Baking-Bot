@@ -5,7 +5,8 @@ from BreadRecipeClass import *
 from IDdictionary import *	
 import json
 from scraper2 import *
-from bottoken import *
+from keys import *
+from KingArthurSearchEngine import *
 
 
 #Setting the prefix that must be used before each command
@@ -132,5 +133,9 @@ async def calendarday(ctx):
 @client.command()
 async def leetcode(ctx):
 	await ctx.send(f"Todays Daily Leetcode Challenge Link: {get_link()}")
+
+@client.command()
+async def kaf(ctx, query):
+	await ctx.send(searchkaf(query))
 
 client.run(bottoken)
