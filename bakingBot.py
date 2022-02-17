@@ -73,14 +73,6 @@ async def commandslist(ctx):
 	await ctx.send(commands)
 
 
-@client.command()
-async def help(ctx):
-	commands = ""
-	for x in help_list.keys():
-		commands = commands + x + ", "
-	await ctx.send(commands)
-
-
 
 #When run, the bot will repeat what you say as many times as you specify (default of 1).
 @client.command()
