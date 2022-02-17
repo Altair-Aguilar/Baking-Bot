@@ -54,7 +54,7 @@ help_list = {
 "commandslist" : "To use this command call !commandslist to get a list of all commands returned",
 "calendarday" : "To use this command, call !calendarday to get today's feast day returned",
 "leetcode" : "To use this command, call !leetcode to get leetcode's daily challenge",
-"kaf" : "To use this command, call !kaf with your search query and get the top result from King Arthur Flour's Site"
+"kaf" : "To use this command, call !kaf with your search query and get the top result from King Arthur Flour's Site, you can also optionally include the number of results you would like to have returned, the maximum is 10."
 }
 
 #Returns a help message for a certain command, taken from help_list
@@ -160,9 +160,23 @@ async def leetcode(ctx):
 @client.command()
 async def kaf(ctx, *args):
 	query = ""
+	number = 1
+	toomany = False
 	for x in args:
-		query = query + x + " "
-	await ctx.send(searchkaf(query))
+		if not x.isdigit():
+			query = query + x + " "
+		else:
+			number = x
+	try:
+		resultslst = searchkaf(query, number)
+
+	except IndexError:
+		await ctx.send ("I'm sorry the limit of queries is 10!")
+		toomany = True
+	if not toomany:
+		for x in resultslst:
+			await ctx.send(x)
+
 
 #Runs the bot
 client.run(bottoken)
