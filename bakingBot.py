@@ -54,7 +54,8 @@ help_list = {
 "commandslist" : "To use this command call !commandslist to get a list of all commands returned",
 "calendarday" : "To use this command, call !calendarday to get today's feast day returned",
 "leetcode" : "To use this command, call !leetcode to get leetcode's daily challenge",
-"kaf" : "To use this command, call !kaf with your search query and get the top result from King Arthur Flour's Site, you can also optionally include the number of results you would like to have returned, the maximum is 10."
+"kaf" : "To use this command, call !kaf with your search query and get the top result from King Arthur Flour's Site, you can also optionally include the number of results you would like to have returned, the maximum is 10.",
+"panconvert" : "To use this command, call !panconvert, followed by the length of the original pan, the width of the original pan, the length of the new pan, the width of the new pan, and the original dough weight. The bot will return the amount of dough necessary for the new pan."
 }
 
 #Returns a help message for a certain command, taken from help_list
