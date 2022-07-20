@@ -110,6 +110,14 @@ async def recipe(ctx, *args):
 	await ctx.send(str(final_recipe.recipe))
 
 
+@client.command()
+async def panconvert(ctx, leng, width, newleng, newwidth, originaldoughweight):
+	ratio = (int(originaldoughweight) / (int(leng) * int(width)))
+	newweight = (int(originaldoughweight) * int(newleng) * int(newwidth))
+	await ctx.send(newweight)
+
+
+
 #using the gw2 api and the previously created functions, determines the price of certain items in GW2 based on the user's input
 @client.command()
 async def gw2price(ctx,*args):
